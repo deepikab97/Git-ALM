@@ -1,6 +1,6 @@
 
 Netflix
-Myntra
+##############################
 Movies HD
 Torrento
 TVF
