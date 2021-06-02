@@ -8,3 +8,4 @@ Zee5
 PhonePe
 GPay
 Flipkart
+Myntra

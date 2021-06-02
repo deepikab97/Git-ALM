@@ -1,12 +1,70 @@
 Git Intermediate level POC:
 
 
+1)How to create branches and merging it.
+>git checkout -b <newBranch>
+>git merge <branchname>
 
-
-Reset:
+2)Reset:
 >git reset--->used to move the current HEAD to the specified commit. OR
 It will reset the state of the branch to a previous state by dropping all the changes post the desired commit.
 
 >git reset --soft :--->History changed, HEAD changed ,Working directory is not changed.
 >git reset --mixed :--->History changed, HEAD changed ,Working directory changed with unstaged data.(Default)
 >git reset --hard :--->History changed, HEAD changed ,Working directory changed with lost data .
+
+
+
+
+3)Rebase:
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ vim Apps.txt
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ git add .
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ git commit -m "PhonePe added"
+[master cdd41f7] PhonePe added
+ 2 files changed, 17 insertions(+)
+ create mode 100644 Notes/Git Intermediate.txt
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ vim Apps.txt
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ git add .
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ git commit -m "GooglePe added"
+[master b89881c] GooglePe added
+ 1 file changed, 2 insertions(+)
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ vim Apps.txt
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ git add .
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ git commit --amend
+[master 80036be] Flipkart added
+ Date: Wed Jun 2 12:18:29 2021 +0530
+ 1 file changed, 2 insertions(+)
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ git log --oneline
+80036be (HEAD -> master) Flipkart added
+cdd41f7 PhonePe added
+4a23a09 (feature/registration) Added Apps txt file
+1e3b028 (origin/master, origin/fature/login, fature/login) Checking merge
+7b153df understanding git diff,status,stash
+8cd38d7 8th commit
+a2a17d0 7th commit
+1bdb48f 6th commit
+8b90781 5th commit
+f397cd6 4rd commit
+3cfd611 3rd commit
+8e03a09 2st commit
+6b9361e 1st commit
