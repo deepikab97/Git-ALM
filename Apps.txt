@@ -6,3 +6,5 @@ Torrento
 TVF
 Zee5
 PhonePe
+GPay
+Flipkart
