@@ -48,7 +48,7 @@ deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
 $ git add .
 
 deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
-$ git commit --amend
+$ git commit --amend           ---->(It will change the latest commit message )
 [master 80036be] Flipkart added
  Date: Wed Jun 2 12:18:29 2021 +0530
  1 file changed, 2 insertions(+)
@@ -68,3 +68,16 @@ f397cd6 4rd commit
 3cfd611 3rd commit
 8e03a09 2st commit
 6b9361e 1st commit
+
+deepikab@deepikab-w8 MINGW64 /d/ALM_Team/Git projects (master)
+$ git blame Apps.txt
+cdd41f75 (Deepika Battewar 2021-06-02 11:36:28 +0530  1)
+4a23a090 (Deepika Battewar 2021-06-01 17:32:11 +0530  2) Netflix
+4a23a090 (Deepika Battewar 2021-06-01 17:32:11 +0530  3) Amazon prime
+4a23a090 (Deepika Battewar 2021-06-01 17:32:11 +0530  4) Movies HD
+cdd41f75 (Deepika Battewar 2021-06-02 11:36:28 +0530  5) Torrento
+cdd41f75 (Deepika Battewar 2021-06-02 11:36:28 +0530  6) TVF
+cdd41f75 (Deepika Battewar 2021-06-02 11:36:28 +0530  7) Zee5
+cdd41f75 (Deepika Battewar 2021-06-02 11:36:28 +0530  8) PhonePe
+80036be9 (Deepika Battewar 2021-06-02 12:18:29 +0530  9) GPay
+80036be9 (Deepika Battewar 2021-06-02 12:18:29 +0530 10) Flipkart
