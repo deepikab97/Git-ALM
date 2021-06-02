@@ -1,0 +1,12 @@
+Git Intermediate level POC:
+
+
+
+
+Reset:
+>git reset--->used to move the current HEAD to the specified commit. OR
+It will reset the state of the branch to a previous state by dropping all the changes post the desired commit.
+
+>git reset --soft :--->History changed, HEAD changed ,Working directory is not changed.
+>git reset --mixed :--->History changed, HEAD changed ,Working directory changed with unstaged data.(Default)
+>git reset --hard :--->History changed, HEAD changed ,Working directory changed with lost data .
