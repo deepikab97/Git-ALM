@@ -1,0 +1,511 @@
+installation -
+
+	1. pre-requisit is java should be installed on machine (add jdk till /bin path add in enviornment variable )
+	2. download sonarQube server zip file attract it  and go to   D:/sonarqube-8.9.1.44547/sonarqube-8.9.1.44547/bin/windows-x86-64/ 
+	3. run StartSonar.bat file in cmd  
+	4. go and check localhost:9000
+	5. set sonar scanner path in enviornment variable system (D:/sonar-scanner-2.8/sonar-scanner-2.8/bin)
+	6. go to project src directory (D:\SonarQube\java_Maven_Project)
+	7. add sonar-project.properties file Add following content
+			sonar.projectVersion=1.0
+			sonar.projectKey=JavaProject1_Q1
+			sonar.projectName=java_Maven_Project
+			sonar.sources=.
+			sonar.java.binaries=./target
+			sonar.host.url=http://localhost:9000
+	8. run command sonar-scanner.bat in project source code (till properties file )		
+			
+			
+				https://www.cloudbees.com/blog/getting-started-sonarqube-sonarlint
+				https://docs.sonarqube.org/latest/extend/adding-coding-rules/
+				https://docs.sonarqube.org/latest/setup/troubleshooting/
+				https://www.tatvasoft.com/blog/introduction-to-sonarqube-sonarlint
+				https://livebook.manning.com/book/sonarqube-in-action/chapter-1/133
+				https://stackoverflow.com/questions/15694724/shards-and-replicas-in-elasticsearch
+				https://www.crestdatasys.com/blogs/an-introduction-on-using-sonarqube/
+	---------------------------------------------------------------------------------------------
+SonarQube POCS(CTG_DevOps):
+1	Sonar qube theory (Bug , vulnerability , code smells,Quality profile , Quality Gate ,Databases provided)									
+2	Read about Sonar Lint , 7 axes and pain areas									
+3	Sonar scanner and sonar scanner properties file									
+4	 Sonar qube architecture									
+5	Security hotspots and its lifecycle									
+6	Issue severity and its types									
+7	Two projects with same name but different proje
+
+
+ct keys									
+8	measures  , period value , comparison operator , error value , warn value									
+9	Two Quality Gate profile for same project									
+10	Generate code coverage report of application using jacoco and cobertura									
+11	Overall Leak period in sonar 									
+12	Integrating sonarqube with database
+13	Use sonarqube and sonarscanner as dependency and as well as installation for maven project with properties file and without properties file	
+14	Difference between Sonarqube 7.5 and Sonarqube 8.1				
+15   Install Both versions of sonarqube on windows and as well as EC2
+
+-------------------------------------------------------------
+
+1	Sonar qube theory (Bug , vulnerability , code smells,Quality profile , Quality Gate ,Databases provided)
+	
+	Bug-> A coding error that will break your code and needs to be fixed immediately.
+	
+	Vulnerability –> A point in your code that's open to attack. 
+	
+	Code Smell –> A maintainability issue that makes your code confusing and difficult to maintain.
+	
+	Quality Gates->	Quality Gates can be defined as a set of threshold measures set on your project like Code Coverage, Technical Debt Measure, 
+					Number of Blocker/Critical issues, Security Rating/ Unit Test Pass Rate and more.
+					To pass the Quality Gates, the project should pass through each of the thresholds set.
+					
+	Quality Profiles -> are a core component of SonarQube, since they are where you define sets of Rules that when violated should raise issues on your codebase
+						(example: Methods should not have a Cognitive Complexity higher than 15). Quality Profiles are defined for individual languages.
+						
+	Default Database ->
+					The embedded H2 database is used by default. It is recommended for tests but not for production use.
+					Supported databases are Oracle, PostgreSQL, and Microsoft SQLServer.
+------------------------------------------------------------------------------------------------------------
+					
+2	Read about Sonar Lint , 7 axes and pain areas						
+	
+	sonarlint-> SonarLint is an IDE extension that helps you detect and fix quality issues as you write code.
+				Like a spell checker, SonarLint squiggles flaws so that they can be fixed before committing code.
+				
+	7 axes ->  SonarQube is an open source platform to manage the source code quality, this cover seven axes of code quality among which stand:
+				1.architecture and design,:
+				Architecture Rules: Architecture constraint rules allow the developers to define the pattern based rules to deny references between classes in different packages. 
+				Some examples of patterns include denying access to *.web.* from *.dao.* classes or denying access to java.util.Vector, java.util.Hashtable and 
+				java.util.Enumeration from any class. A project complies with an architectural model when its source code adheres to a set of architectural constraints.
+				Java bytecode analysis is required to use this rule.
+				2.duplications, 
+				3.unit test,
+				4.complexity, https://docs.sonarqube.org/7.3/Metrics-Complexity.html
+				these metrics are about how many pairs of curly braces (real or implied) your method has. The premise of this leading indicator is that the
+				more pairs of curly braces there are, the more complex the logic is.
+				And the more complex the logic, the harder it is to understand and maintain.
+				5.potential bugs,
+				Taken together, potential bugs and coding rule infractions span a continuum, from setting up a logic path through the code that’s guaranteed 
+				to lead to a null pointer dereference, to not putting the open curly brace on the line the team has agreed to. 
+				Teetering between the two are things like flouting industry-standard naming conventions and writing one-line conditionals without using curly braces.
+               
+			   Given those examples, it’s clear that some issues are worse than others. 
+			   That’s why SonarQube ranks them at different severities: Blocker, Critical, Major, Minor, and Info.
+				6.codifications rules,
+				7.comments, 
+				among others; this platform work with over 20 programming languages.
+	
+	pain areas before sonarqube ->
+	
+				1.lacking comments in source code ,especially in public API'S.
+				2.duplicate lines of code 
+				3.bad distribution  of complexity amongst componentes
+				4. low code coverage by unit tests,especially complex part of the code.
+				5.leaving potential bugs
+				6. not following architecture & bugs 
+---------------------------------------------------------------------------------------------------------
+
+3	Sonar scanner and sonar scanner properties file		 (https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/)
+
+		once you sonanrqube server is up and running you ned to add scanner for it : 
+		SonarQube integrations are supported for popular ALMs: 
+		GitHub Enterprise and GitHub.com, 
+		BitBucket Server, 
+		Azure Devops Server a
+		nd Azure DevOps Services.
+		
+		sonar scanner for maven - > https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven/
+		
+		propeties file (D:/sonar-scanner-2.8/sonar-scanner-2.8/conf/sonar-scanner):
+				Create a configuration file in your project's root directory called sonar-project.properties
+				
+# must be unique in a given SonarQube instance
+sonar.projectKey=my:project
+
+# --- optional properties ---
+
+# defaults to project key
+#sonar.projectName=My project
+# defaults to 'not provided'
+#sonar.projectVersion=1.0
+ 
+# Path is relative to the sonar-project.properties file. Defaults to .
+#sonar.sources=.
+ 
+# Encoding of the source code. Default is default system encoding
+#sonar.sourceEncoding=UTF-8
+
+-------------------------------Running SonarScanner from the zip file-------------------
+
+	To run SonarScanner from the zip file, follow these steps:
+
+Expand the downloaded file into the directory of your choice. We'll refer to it as $install_directory in the next steps.
+Update the global settings to point to your SonarQube server by editing $install_directory/conf/sonar-scanner.properties:
+
+#----- Default SonarQube server
+#sonar.host.url=http://localhost:9000
+Add the $install_directory/bin directory to your path.
+Verify your installation by opening a new shell and executing the command sonar-scanner -h (sonar-scanner.bat -h on Windows).
+ You should get output like this:
+
+usage: sonar-scanner [options]
+
+Options:
+ -D,--define <arg>     Define property
+ -h,--help             Display help information
+ -v,--version          Display version information
+ -X,--debug            Produce execution debug output
+If you need more debug information, you can add one of the following to your command line: -X, --verbose, or -Dsonar.verbose=true.
+
+Run the following command from the project base directory to launch analysis and pass your authentication token:
+sonar-scanner -Dsonar.login=myAuthenticationToken
+
+---------------------------Alternatives to sonar-project.properties-------------------------------
+If a sonar-project.properties file cannot be created in the root directory of the project, there are several alternatives:
+The properties can be specified directly through the command line. Ex:
+sonar-scanner -Dsonar.projectKey=myproject -Dsonar.sources=src1
+The property project.settings can be used to specify the path to the project configuration file 
+(this option is incompatible with the sonar.projectBaseDir property). 
+Ex:
+sonar-scanner -Dproject.settings=../myproject.properties
+The root folder of the project to analyze can be set through the sonar.projectBaseDir property since 
+SonarScanner 2.4. This folder must contain a sonar-project.properties file if sonar.projectKey is not specified on the command line.
+ Additional analysis parameters can be defined in this project configuration file or through command-line parameters.		
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Sonar qube architecture		
+	
+	he SonarQube Platform is made of 4 components:
+	1.One SonarQube Server starting 3 main processes:
+			Web Server for developers, managers to browse quality snapshots and configure the SonarQube instance
+			Search Server based on Elasticsearch to back searches from the UI
+			Compute Engine Server in charge of processing code analysis reports and saving them in the SonarQube Database
+	2.One SonarQube Database to store:
+			the configuration of the SonarQube instance (security, plugins settings, etc.)
+			the quality snapshots of projects, views, etc.
+
+	3.Multiple SonarQube Plugins installed on the server, possibly including language, SCM, integration, authentication, and governance plugins
+	4.One or more SonarScanners running on your Build / Continuous Integration Servers to analyze projects
+---------------
+Developers code in their IDEs and use SonarLint to run local analysis.
+
+Developers push their code into their favourite SCM : git, SVN, TFVC, ...
+The Continuous Integration Server triggers an automatic build, and the execution of the SonarScanner required to run the SonarQube analysis.
+The analysis report is sent to the SonarQube Server for processing.
+
+SonarQube Server processes and stores the analysis report results in the SonarQube Database, and displays the results in the UI.
+
+Developers review, comment, challenge their Issues to manage and reduce their Technical Debt through the SonarQube UI.
+Managers receive Reports from the analysis. Ops use APIs to automate configuration and extract data from SonarQube. Ops use JMX to monitor SonarQube Server.
+
+------------About Machines and Locations
+The SonarQube Platform cannot have more than one SonarQube Server (although the Server can be installed as a cluster) and one SonarQube Database.
+
+For optimal performance, each component (server, database, scanners) should be installed on a separate machine, and the server machine(s) should be dedicated.
+SonarScanners scale by adding machines.
+All machines must be time synchronized.
+
+The SonarQube Server and the SonarQube Database must be located in the same network
+
+SonarScanners don't need to be on the same network as the SonarQube Server.
+
+There is no communication between SonarScanners and the SonarQube Database.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+5. Security hotspots and its lifecycle	
+	
+	What is a Security Hotspot?
+		A Security Hotspot highlights a security-sensitive piece of code that the developer needs to review. 
+		Upon review, you'll either find there is no threat or you need to apply a fix to secure the code.
+	
+	Vulnerability or Hotspot?
+		The main difference between a hotspot and a vulnerability is the need of a review before deciding whether to apply a fix:
+
+		With a Hotspot, a security-sensitive piece of code is highlighted, but the overall application security may not be impacted. 
+		It's up to the developer to review the code to determine whether or not a fix is needed to secure the code.
+		With a vulnerability, a problem that impacts the application's security has been discovered that needs to be fixed immediately.
+		
+	->Lifecycle
+		Security Hotspots have a dedicated lifecycle. To make status changes, the user needs the Administer Security Hotspots permission. 
+		This permission is enabled by default. Users with the Browse permission can comment on or change the user assigned to a Security Hotspot.
+
+	->Statuses
+		Through the lifecycle, a Security Hotspot takes one of the following statuses:
+
+		To Review – the default status of new Security Hotspots set by SonarQube. A Security Hotspot has been reported and needs to be checked.
+		Reviewed – a developer has manually assessed the Security Hotspot and decided whether or not to apply a fix.
+		Fixed – if you have applied a fix to secure the code highlighted by the Hotspot.
+		Safe – if the code is already secure and doesn't need to be fixed. (for example, other more relevant protections are already in place).
+		To review – if you need another user's review.
+	
+	->Review Priority
+			When SonarQube detects a Security Hotspot, it's added to the list of Security Hotspots according to its review priority from High to Low.
+			Hotspots with a High Review Priority are the most likely to contain code that needs to be secured and require your attention first.
+	
+	->Review History
+			The Review history tab shows the history of the Security Hotspot including the status it's been assigned and 
+			any comments the reviewer had regarding the Hotspot.
+			
+-----------------------------------------------------------------------------------------------------------------------------------------------------------			
+6. Issue severity and its types	
+		
+		While running an analysis, SonarQube raises an issue every time a piece of code breaks a coding rule. 
+		The set of coding rules is defined through the associated Quality Profile for each language in the project.
+		
+	->There are three types of issues:
+		Bug – A coding error that will break your code and needs to be fixed immediately.
+		Vulnerability – A point in your code that's open to attack.
+		Code Smell – A maintainability issue that makes your code confusing and difficult to maintain.
+	
+	->Each issue has one of five severities:
+
+		1.BLOCKER
+		Bug with a high probability to impact the behavior of the application in production:
+		memory leak, unclosed JDBC connection, .... The code MUST be immediately fixed.
+		2.CRITICAL
+		Either a bug with a low probability to impact the behavior of the application in production or an issue which represents a security flaw: 
+		empty catch block, SQL injection, ... The code MUST be immediately reviewed.
+		3.MAJOR
+		Quality flaw which can highly impact the developer productivity: uncovered piece of code, duplicated blocks, unused parameters, ...
+		4.MINOR
+		Quality flaw which can slightly impact the developer productivity: lines should not be too long, "switch" statements should have at least 3 cases, ...
+		5.INFO
+		Neither a bug nor a quality flaw, just a finding.
+Ideally, the team wouldn't introduce any new issues (any new technical debt).
+ SonarLint can help developers because it provides the ability to perform local analyses to check their code before pushing it back to the SCM. 
+ But in real life, it's not always possible to code without any new technical debt, and sometimes it's not worth it. So new issues get introduced.
+
+------------------------------Issues lifecycle-------------------
+
+	->Statuses
+	After creation, issues flow through a lifecycle, taking one of five possible statuses:
+			1.Open - set by SonarQube on new issues
+			2.Confirmed - set manually to indicate that the issue is valid
+			3.Resolved - set manually to indicate that the next analysis should Close the issue
+			4.Reopened - set automatically by SonarQube when a Resolved issue hasn't actually been corrected
+			5.Closed - set automatically by SonarQube for automatically created issues.
+
+	->Resolutions
+		Closed issues will have one of two resolutions:
+
+		1.Fixed - set automatically when a subsequent analysis shows that the issue has been corrected or the file is no longer available
+		(removed from the project, excluded or renamed)
+		2.Removed - set automatically when the related rule is no longer available.
+		The rule may not be available either because it has been removed from the Quality Profile or because the underlying plugin has been uninstalled.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+7	Two projects with same name but different project keys	
+		1.copy same project in other directory  update sonar-project.properties file change key
+		2. go to root folder and in cmd run sonar-scanner.bat file 
+		3. go to https://localhost:9000 and check 2nd project will get updated .
+		
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+8.	measures  , period value , comparison operator , error value , warn value	
+
+https://docs.sonarqube.org/7.4/user-guide/metric-definitions/
+
+		Quality Gates can be accessed by any user (even anonymous users). All users can view every aspect of a quality gate.
+		To make changes (create, edit or delete) users must be granted the Administer Quality Profiles and Gates permission.
+		A project administrator can choose which quality gates his/her project is associated with.
+		
+		Each Quality Gate condition is a combination of :
+			1.measure
+			2.period: Value (to date) or Leak (differential value over the Leak period)
+			3.comparison operator
+			4.warning value (optional)
+			5.error value (optional)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9	Two Quality Gate profile for same project	
+
+		1. goto Quality Gates tab create new  QG .
+		2 select project 1 go to administration and select Quality gate 
+		3 select project 2 go to administration and select Quality gate 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+10	Generate code coverage report of application using jacoco and cobertura	
+
+		1.create maven project add plugin in pom.xml file
+				
+				
+				<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<!-- Unit tests are run by surefire. -->
+				<!-- Classes under src/test/java called *Test are included automatically. -->
+				<!-- Unit tests are run during the test phase. -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.0</version>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<dataFile>target/jacoco.exec</dataFile>
+							<outputDirectory>target/my-report</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<systemPropertyVariables>
+						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+			
+			
+			2.Add the properties file 
+				sonar.coverage.jacoco.xmlReportPaths= StringReverseProject/target/site/jacoco.xml
+				
+			3.mvn clean
+			4.mvn test
+			5.run the soanr-scanner.bat
+			and seet the coverage report in soanrqube server
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+11	Overall Leak period in sonar 								
+-------------------------------------------------------------------------------------------------------------------------------------------------------------	
+12	Integrating sonarqube with database  
+		
+		(https://www.alibabacloud.com/blog/how-to-install-postgresql-for-sonarqube-on-ubuntu-16-04_594904)
+		(https://www.alibabacloud.com/blog/setting-up-a-postgresql-database-on-an-ubuntu-instance_594124?spm=a2c65.11461447.0.0.1dc158e3270eMN)
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+13	Use sonarqube and sonarscanner as dependency and as well as installation for maven project with properties file and without properties file	
+	
+	
+	without adding propertites file in project
+			1.Run Sonarqube server
+			2.Go to the maven project open cmd                                                       
+				mvn sonar:sonar -Dsonar.login=                           
+					-Dsonar.projectVersion=1.0
+					-Dsonar.projectKey=JavaProject1_Q1
+					-Dsonar.projectName=java_Maven_Project
+					-Dsonar.sources=.
+					-Dsonar.java.binaries=./target
+					-Dsonar.host.url=http://localhost:9000
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+14	Difference between Sonarqube 7.5 and Sonarqube 8.1					
+ ---------------------------------------------------------------------------------
+15 run sonarqube on EC2 instance (ubuntu 20.04 LTS)(sonarqube 7.9 installed LTS)   ---> select t2.medium hardware requirement is 2GB minimum for sonarqube server
+
+		15.1. Create EC2 instance on aws (add security group -ssh,http,all traffic- anywhere )
+		15.2. copy ipv4 public  goto ->puttygen-> load->add passphrase->create private PPK file 
+		15.3. open putty add ipv4 address ->go tot ssh->auth ->browse ppk key -> open 
+		15.4. username : ubuntu password : passphrase (which you set during key generation )
+						
+						with  Mobaxterm : 
+						1. new ssh session 
+						2. add ipv4 add usernam - ubuntu
+						3. add .pem file 
+						4. open (password authentication get skipped)
+						
+		15.5. pre-requisit to  install sonarqube is you should have java(jdk installed ) steps :
+					sudo apt update
+					sudo apt install openjdk-11-jdk
+					java -version
+					sudo adduser sonarqube(new username)
+					sudo mkdir /opt/sonarqube
+					cd /opt/sonarqube/
+					sudo apt-get install unzip -y
+					sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.9.3.zip
+					sudo unzip sonarqube-7.9.3.zip
+					sudo chown -R sonarqube:sonarqube /opt/sonarqube       (command changes permission for this folder)
+					sudo su sonarqube  (user account changes to sonarqube)
+					cd sonarqube-7.9.3/conf
+					nano sonar.properties               (uncomment web port no 9000 add db username & password) ctrl+o save
+					cd ..
+					cd bin/linuxx-86-64
+					./sonar.sh start                   (once sonarqube up & running goto browser )
+					
+		15.6. on browser ex  13.232.245.23:9000         (check sonar UL login with admin ID & Password)
+------------------------
+        15.7.  Setting Up the Code Scanner 			(https://www.digitalocean.com/community/tutorials/how-to-ensure-code-quality-with-sonarqube-on-ubuntu-18-04)
+			
+			sudo mkdir /opt/sonarscanner
+			 cd /opt/sonarscanner
+			 sudo wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.4.0.2170-linux.zip
+			sudo unzip sonar-scanner-cli-4.4.0.2170-linux.zip
+			sonar.host.url=https://52.66.180.192:9000
+			sudo chmod +x sonar-scanner-4.4.0.2170-linux/bin/sonar-scanner
+			sudo ln -s /opt/sonarscanner/sonar-scanner-4.4.0.2170-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
+			
+		15.8   Running a Test Scan on SonarQube Example Projects
+				
+				cd ~
+				mkdir sonar-test && cd sonar-test
+				wget https://github.com/deepikab97/sonarqube_pocs/archive/master.zip
+				unzip master.zip
+				cd sonar-test/sonarqube_poc-master/Student (goto new unzipped project)
+				
+		15.9  add project at sonarqube server  goto ->	 https://52.66.180.192:9000
+				create project key  -> unbuntu_Ec2_7.9sonarqube							student1
+				create token for project  ->b6185afb82baf2045da7ad72b61a8e2cdc5cc076	
+				
+				goto scanner folder update sonar-project.properties file
+				 create project key  -> unbuntu_Ec2_7.9sonarqube
+				create token for project  ->b6185afb82baf2045da7ad72b61a8e2cdc5cc076
+				update host url also -> https://52.66.180.192:9000
+		
+		15.10  run scanner in projects folder where is sonar-project.properties file
+				sonar-scanner -D sonar.login=b6185afb82baf2045da7ad72b61a8e2cdc5cc076
+				
+				goto sonarqube dashboard  check project
+
+				
+
+
+
+
+		
+	
+
+	
+
+
+unbuntu_Ec2_7.9sonarqube
+					
